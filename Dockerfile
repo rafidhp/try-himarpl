@@ -21,9 +21,16 @@ WORKDIR /var/www/html
 # Copy semua project ke folder kerja di container
 COPY . /var/www/html/
 
+COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+
+RUN composer install --no-dev --optimize-autoloader
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+RUN chmod -R 775 /app/storage /app/bootstrap/cache
+
 # Set permission folder Laravel
 RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
+
 
 # Expose port 80
 EXPOSE 80
