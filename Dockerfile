@@ -31,6 +31,9 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
 
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Expose port 80
 EXPOSE 80
+CMD ["/entrypoint.sh"]
